@@ -1,19 +1,16 @@
 package edu.ucsc.gameAI;
 
 import edu.ucsc.gameAI.decisionTrees.binary.IBinaryNode;
+import pacman.game.Constants.MOVE;
 
 public class GoUpAction implements IAction, IBinaryNode {
 
-	@Override
-	public IAction makeDecision() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void doAction() {
-		// TODO Auto-generated method stub
-
+public void doAction() {	} // Does nothing: required for interface
+	
+	public IAction makeDecision() {return this;}
+	
+	public MOVE getMove() {
+		return MOVE.UP;
 	}
 
 }
