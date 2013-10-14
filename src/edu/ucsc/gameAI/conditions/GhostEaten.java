@@ -4,13 +4,14 @@ import edu.ucsc.gameAI.ICondition;
 import pacman.game.Constants.GHOST;
 import pacman.game.Game;
 
-public class IsEdible implements ICondition {
+public class GhostEaten implements ICondition {
 	
 	Game game;
 	GHOST ghost;
 	
-	// Returns TRUE if ghost is edible
-	public IsEdible(Game game, GHOST ghost)
+	// Returns TRUE if the ghost was eaten
+	// othewise FALSE
+	public GhostEaten(Game game, GHOST ghost)
 	{
 		this.game=game;
 		this.ghost=ghost;
@@ -18,6 +19,6 @@ public class IsEdible implements ICondition {
 	
 	public boolean test() 
 	{
-		return game.isGhostEdible(ghost);
+		return game.wasGhostEaten(ghost);
 	}
 }

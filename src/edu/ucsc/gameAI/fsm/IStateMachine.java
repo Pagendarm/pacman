@@ -6,7 +6,7 @@ import edu.ucsc.gameAI.IAction;
 
 /**
  * The interface for a state machine. This Interface must be extended for 
- * state machine implementations to interface wit automatic testing and 
+ * state machine implementations to interface with automatic testing and 
  * grading. 
  * @author Josh McCoy
  *
