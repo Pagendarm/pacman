@@ -6,16 +6,16 @@ import pacman.game.Game;
 
 public class IsEdible implements ICondition {
 	
-	Game ggame;
-	GHOST gghost;
+	Game game;
+	GHOST ghost;
 	public IsEdible(Game game, GHOST ghost)
 	{
-		ggame=game;
-		gghost=ghost;
+		this.game=game;
+		this.ghost=ghost;
 	}
 	
 	public boolean test() 
 	{
-		return ggame.isGhostEdible(gghost);
+		return game.isGhostEdible(ghost);
 	}
 }

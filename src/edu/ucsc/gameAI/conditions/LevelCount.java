@@ -8,6 +8,8 @@ public class LevelCount implements ICondition {
 	Game game;
 	int level;
 	
+	// Returns TRUE if level count is between min/max
+	// otherwise FALSE
 	public LevelCount (Game game,int level) {
 		this.game = game;
 		this.level = level;

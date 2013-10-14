@@ -8,6 +8,9 @@ public class TotalTime implements ICondition {
 	Game game;
 	int min, max;
 	
+	// Returns TRUE if total time played is between min/max
+	// otherwise FALSE
+	
 	public TotalTime (Game game,int min,int max) {
 		this.game = game;
 		this.min = min;

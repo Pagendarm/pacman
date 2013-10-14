@@ -8,6 +8,9 @@ public class MazeIndex implements ICondition {
 	Game game;
 	int index;
 	
+	// Returns TRUE if maze index is between min/max
+	// otherwise FALSE
+	
 	public MazeIndex (Game game,int index) {
 		this.game = game;
 		this.index = index;

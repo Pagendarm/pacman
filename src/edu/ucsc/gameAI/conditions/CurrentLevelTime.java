@@ -8,6 +8,9 @@ public class CurrentLevelTime implements ICondition {
 	Game game;
 	int min, max;
 	
+	// Return TRUE if current time is between min/max
+	// otherwise FALSE
+	
 	public CurrentLevelTime (Game game,int min,int max) {
 		this.game = game;
 		this.min = min;
