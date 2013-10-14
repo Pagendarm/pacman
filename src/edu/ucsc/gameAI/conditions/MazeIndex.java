@@ -8,7 +8,7 @@ public class MazeIndex implements ICondition {
 	Game game;
 	int index;
 	
-	// Returns TRUE if maze index is between min/max
+	// Returns TRUE if maze index is equal to index
 	// otherwise FALSE
 	
 	public MazeIndex (Game game,int index) {

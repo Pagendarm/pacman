@@ -8,7 +8,7 @@ public class CurrentLevelTime implements ICondition {
 	Game game;
 	int min, max;
 	
-	// Return TRUE if current time is between min/max
+	// Return TRUE if current time is between min/max inclusive
 	// otherwise FALSE
 	
 	public CurrentLevelTime (Game game,int min,int max) {
@@ -19,7 +19,7 @@ public class CurrentLevelTime implements ICondition {
 	
 	public boolean test() {
 		int current_time = game.getCurrentLevelTime();
-		return (min < current_time && max > current_time);
+		return (min <= current_time && max >= current_time);
 	}
 
 }

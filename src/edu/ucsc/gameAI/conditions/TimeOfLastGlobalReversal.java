@@ -8,7 +8,7 @@ public class TimeOfLastGlobalReversal implements ICondition {
 	Game game;
 	int min, max;
 	
-	// Returns TRUE if last global reversal for ghosts
+	// Returns TRUE if last global reversal for ghosts inclusive
 	// is between min/max
 	// otherwise FALSE
 	
@@ -20,7 +20,7 @@ public class TimeOfLastGlobalReversal implements ICondition {
 	
 	public boolean test() {
 		int current_time = game.getTimeOfLastGlobalReversal();
-		return (min < current_time && max > current_time);
+		return (min <= current_time && max >= current_time);
 	}
 
 }

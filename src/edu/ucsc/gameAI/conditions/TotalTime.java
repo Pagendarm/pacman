@@ -8,7 +8,7 @@ public class TotalTime implements ICondition {
 	Game game;
 	int min, max;
 	
-	// Returns TRUE if total time played is between min/max
+	// Returns TRUE if total time played is between min/max inclusive
 	// otherwise FALSE
 	
 	public TotalTime (Game game,int min,int max) {
@@ -19,7 +19,7 @@ public class TotalTime implements ICondition {
 	
 	public boolean test() {
 		int current_time = game.getTotalTime();
-		return (min < current_time && max > current_time);
+		return (min <= current_time && max >= current_time);
 	}
 
 }

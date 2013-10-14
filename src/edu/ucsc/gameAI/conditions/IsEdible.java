@@ -8,6 +8,8 @@ public class IsEdible implements ICondition {
 	
 	Game game;
 	GHOST ghost;
+	
+	// Returns TRUE if ghost is edible
 	public IsEdible(Game game, GHOST ghost)
 	{
 		this.game=game;
