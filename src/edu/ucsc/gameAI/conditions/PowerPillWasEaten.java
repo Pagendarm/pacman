@@ -3,19 +3,19 @@ package edu.ucsc.gameAI.conditions;
 import edu.ucsc.gameAI.ICondition;
 import pacman.game.Game;
 
-public class PacmanWasEaten implements ICondition {
+public class PowerPillWasEaten implements ICondition {
 	
 	Game game;
 	
-	// Returns TRUE if a Pacman was eaten since last test
+	// Returns TRUE if a PowerPill was eaten since last test
 	// otherwise FALSE
-	public PacmanWasEaten(Game game)
+	public PowerPillWasEaten(Game game)
 	{
 		this.game=game;
 	}
 	
 	public boolean test() 
 	{
-		return game.wasPacManEaten();
+		return game.wasPowerPillEaten();
 	}
 }
