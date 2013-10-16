@@ -18,7 +18,7 @@ public class TimeOfLastGlobalReversal implements ICondition {
 		this.max = max;
 	}
 	
-	public boolean test() {
+	public boolean test(Game game) {
 		int current_time = game.getTimeOfLastGlobalReversal();
 		return (min <= current_time && max >= current_time);
 	}

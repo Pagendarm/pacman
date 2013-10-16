@@ -22,7 +22,7 @@ public class CurrentGhostNodeIndex implements ICondition {
 		this.max = max;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int value = game.getGhostCurrentNodeIndex(ghost);
 		return (value >=  min && value <= max);

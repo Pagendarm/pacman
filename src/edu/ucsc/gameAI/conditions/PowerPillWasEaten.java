@@ -14,8 +14,9 @@ public class PowerPillWasEaten implements ICondition {
 		this.game=game;
 	}
 	
-	public boolean test() 
+	public boolean test (Game game) 
 	{
 		return game.wasPowerPillEaten();
 	}
+
 }

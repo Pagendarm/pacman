@@ -15,7 +15,7 @@ public class LevelCount implements ICondition {
 		this.level = level;
 	}
 	
-	public boolean test() {
+	public boolean test(Game game) {
 		return (game.getCurrentLevel() == level);
 	}
 

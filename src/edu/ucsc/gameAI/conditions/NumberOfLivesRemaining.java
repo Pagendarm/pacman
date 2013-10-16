@@ -19,7 +19,7 @@ public class NumberOfLivesRemaining implements ICondition {
 		this.max = max;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int value = game.getPacmanNumberOfLivesRemaining();
 		return (value >=  min && value <= max);

@@ -18,7 +18,7 @@ public class PacmanLastMove implements ICondition {
 		this.move = move;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		return (game.getPacmanLastMoveMade() == move);
 	}

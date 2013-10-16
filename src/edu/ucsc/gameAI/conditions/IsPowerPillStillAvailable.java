@@ -16,7 +16,7 @@ public class IsPowerPillStillAvailable implements ICondition {
 		this.ppill_index = ppill_index;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int ppill_indices[] = game.getPowerPillIndices();
 		for (int i:ppill_indices) {

@@ -17,7 +17,7 @@ public class CurrentLevelTime implements ICondition {
 		this.max = max;
 	}
 	
-	public boolean test() {
+	public boolean test(Game game) {
 		int current_time = game.getCurrentLevelTime();
 		return (min <= current_time && max >= current_time);
 	}

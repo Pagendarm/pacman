@@ -16,7 +16,7 @@ public class IsPillStillAvailable implements ICondition {
 		this.pill_index = pill_index;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int pill_indices[] = game.getActivePillsIndices();
 		for (int i:pill_indices) {

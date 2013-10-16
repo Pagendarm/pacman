@@ -16,7 +16,7 @@ public class MazeIndex implements ICondition {
 		this.index = index;
 	}
 	
-	public boolean test() {
+	public boolean test(Game game) {
 		return (game.getMazeIndex() == index);
 	}
 

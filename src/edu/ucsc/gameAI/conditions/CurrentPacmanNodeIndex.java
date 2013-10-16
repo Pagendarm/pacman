@@ -17,7 +17,7 @@ public class CurrentPacmanNodeIndex implements ICondition {
 		this.num = num;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int value = game.getPacmanCurrentNodeIndex();
 		return (value == num);

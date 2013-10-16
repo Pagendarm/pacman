@@ -14,7 +14,7 @@ public class PacmanWasEaten implements ICondition {
 		this.game=game;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		return game.wasPacManEaten();
 	}

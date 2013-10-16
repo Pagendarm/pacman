@@ -16,7 +16,7 @@ public class IsEdible implements ICondition {
 		this.ghost=ghost;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		return game.isGhostEdible(ghost);
 	}
