@@ -10,23 +10,12 @@ import edu.ucsc.gameAI.IAction;
 
 public class StateMachine implements IStateMachine {
 	
-
-	// List of states for the machine
-	Vector<State> states;
 	
 	IState initial_state;
 	IState current_state;
 	
-	// Accepts a Vector of states, assumes 1st in Vector is initial 
-	public StateMachine (Vector<State> states) {
-		this.states = states;
-		this.current_state = this.initial_state = states.firstElement();
-	}
-	
-	// Accepts a Vector of states, and an index of the initial
-	public StateMachine (Vector<State> states, int initial_index) {
-		if (initial_index > states.size()) throw new IndexOutOfBoundsException();
-		this.current_state = this.initial_state = states.elementAt(initial_index);
+	// Empty state machine
+	public StateMachine (){
 	}
 	
 	public Collection<IAction> update(Game game) {

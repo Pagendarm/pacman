@@ -7,22 +7,20 @@ import pacman.game.Game;
 public class CurrentGhostNodeIndex implements ICondition {
 	
 	GHOST ghost;
-	int min;
-	int max;
+	int input;
 	
-	// Returns TRUE if value is between min/max inclusive
+	// Returns TRUE if value is equal to input
 	// otherwise FALSE
 	
-	public CurrentGhostNodeIndex(GHOST ghost, int min, int max)
+	public CurrentGhostNodeIndex(GHOST ghost, int input)
 	{
 		this.ghost=ghost;
-		this.min = min;
-		this.max = max;
+		this.input = input;
 	}
 	
 	public boolean test(Game game) 
 	{
 		int value = game.getGhostCurrentNodeIndex(ghost);
-		return (value >=  min && value <= max);
+		return (value == input);
 	}
 }
