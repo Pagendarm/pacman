@@ -3,6 +3,7 @@ package edu.ucsc.gameAI.fsm;
 import java.util.Collection;
 import java.util.Vector;
 
+import pacman.game.Game;
 import edu.ucsc.gameAI.fsm.State;
 import edu.ucsc.gameAI.fsm.ITransition;
 import edu.ucsc.gameAI.IAction;
@@ -13,8 +14,8 @@ public class StateMachine implements IStateMachine {
 	// List of states for the machine
 	Vector<State> states;
 	
-	State initial_state;
-	State current_state;
+	IState initial_state;
+	IState current_state;
 	
 	// Accepts a Vector of states, assumes 1st in Vector is initial 
 	public StateMachine (Vector<State> states) {
@@ -28,13 +29,13 @@ public class StateMachine implements IStateMachine {
 		this.current_state = this.initial_state = states.elementAt(initial_index);
 	}
 	
-	public Collection<IAction> update() {
+	public Collection<IAction> update(Game game) {
 		
 		ITransition triggered_transition = null;
 		
 		// Check transitions from current state
 		for (ITransition T :current_state.getTransitions()) {
-			if (T.isTriggered()) {
+			if (T.isTriggered(game)) {
 				triggered_transition = T;
 			}
 		}
@@ -64,6 +65,10 @@ public class StateMachine implements IStateMachine {
 
 	public IState getCurrentState() {
 		return current_state;
+	}
+
+	public void setCurrentState(IState state) {
+		current_state = state;
 	}
 
 }

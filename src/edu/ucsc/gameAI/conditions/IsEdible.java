@@ -6,13 +6,11 @@ import pacman.game.Game;
 
 public class IsEdible implements ICondition {
 	
-	Game game;
 	GHOST ghost;
 	
 	// Returns TRUE if ghost is edible
-	public IsEdible(Game game, GHOST ghost)
+	public IsEdible( GHOST ghost)
 	{
-		this.game=game;
 		this.ghost=ghost;
 	}
 	

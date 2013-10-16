@@ -1,5 +1,6 @@
 package edu.ucsc.gameAI.fsm;
 
+import pacman.game.Game;
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.ICondition;
 
@@ -10,10 +11,9 @@ public class Transition implements ITransition {
 	IState target_state;
 	IAction trigger_action;
 
-	// Requires a call to setCondition to set the trigger
-	public Transition (IAction trigger_action,IState target_state) {
-		this.trigger_action = trigger_action;
-		this.target_state = target_state;
+	// Constructs empty instance
+	public Transition () {
+		
 	}
 	
 	// Sets trigger condition, target_state, and trigger_action
@@ -34,10 +34,18 @@ public class Transition implements ITransition {
 	public void setCondition(ICondition condition) {
 		this.trigger = condition;
 	}
-
-
-	public boolean isTriggered() {
-		return trigger.test();
+	
+	public void setTargetState(IState targetState) {
+		this.target_state = targetState;
 	}
+
+	public void setAction(IAction action) {
+		trigger_action = action;
+	}
+	
+	public boolean isTriggered(Game game) {
+		return trigger.test(game);
+	}
+
 
 }

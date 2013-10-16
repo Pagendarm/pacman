@@ -6,14 +6,12 @@ import pacman.game.Game;
 
 public class GhostEaten implements ICondition {
 	
-	Game game;
 	GHOST ghost;
 	
 	// Returns TRUE if the ghost was eaten
 	// othewise FALSE
-	public GhostEaten(Game game, GHOST ghost)
+	public GhostEaten(GHOST ghost)
 	{
-		this.game=game;
 		this.ghost=ghost;
 	}
 	

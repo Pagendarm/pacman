@@ -5,14 +5,12 @@ import pacman.game.Game;
 
 public class Score implements ICondition {
 
-	Game game;
 	int min, max;
 	
 	// Returns TRUE if score is between min/max inclusive
 	// otherwise FALSE
 	
-	public Score (Game game,int min,int max) {
-		this.game = game;
+	public Score (int min,int max) {
 		this.min = min;
 		this.max = max;
 	}

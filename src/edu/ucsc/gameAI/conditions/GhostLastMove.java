@@ -7,16 +7,14 @@ import pacman.game.Game;
 
 public class GhostLastMove implements ICondition {
 	
-	Game game;
 	GHOST ghost;
 	MOVE move;
 	
 	// Returns TRUE if GHOST last MOVE was move
 	// otherwise FALSE
 	
-	public GhostLastMove(Game game, GHOST ghost, MOVE move)
+	public GhostLastMove(GHOST ghost, MOVE move)
 	{
-		this.game = game;
 		this.ghost = ghost;
 		this.move = move;
 	}

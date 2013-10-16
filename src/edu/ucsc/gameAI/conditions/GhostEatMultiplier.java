@@ -5,15 +5,13 @@ import pacman.game.Game;
 
 public class GhostEatMultiplier implements ICondition {
 
-	Game game;
 	int min, max;
 	
 	// Returns TRUE if game eat multiplier (ghost score / 200)
 	// is between min/max
 	// otherwise FALSE
 	
-	public GhostEatMultiplier (Game game,int min,int max) {
-		this.game = game;
+	public GhostEatMultiplier (int min,int max) {
 		this.min = min;
 		this.max = max;
 	}

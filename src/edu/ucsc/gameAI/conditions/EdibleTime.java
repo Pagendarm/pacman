@@ -6,7 +6,6 @@ import pacman.game.Game;
 
 public class EdibleTime implements ICondition {
 	
-	Game game;
 	GHOST ghost;
 	int min;
 	int max;
@@ -14,9 +13,8 @@ public class EdibleTime implements ICondition {
 	// Returns TRUE if value is between min/max inclusive
 	// otherwise FALSE
 	
-	public EdibleTime(Game game, GHOST ghost, int min, int max)
+	public EdibleTime(GHOST ghost, int min, int max)
 	{
-		this.game=game;
 		this.ghost=ghost;
 		this.min = min;
 		this.max = max;

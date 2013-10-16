@@ -5,14 +5,12 @@ import pacman.game.Game;
 
 public class MazeIndex implements ICondition {
 
-	Game game;
 	int index;
 	
 	// Returns TRUE if maze index is equal to index
 	// otherwise FALSE
 	
-	public MazeIndex (Game game,int index) {
-		this.game = game;
+	public MazeIndex (int index) {
 		this.index = index;
 	}
 	
