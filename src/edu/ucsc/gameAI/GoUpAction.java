@@ -13,7 +13,7 @@ public class GoUpAction implements IAction, IBinaryNode {
 	@Override
 	public void doAction() {
 		// TODO Auto-generated method stub
-
+        return this;
 	}
 
 }

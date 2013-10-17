@@ -23,10 +23,13 @@ import pacman.controllers.examples.RandomNonRevPacMan;
 import pacman.controllers.examples.RandomPacMan;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.controllers.examples.StarterPacMan;
-import pacman.entries.ghosts.MyGhosts;
+import pacman.entries.ghosts.*;
 import pacman.game.Game;
 import pacman.game.GameView;
 import static pacman.game.Constants.*;
+import edu.ucsc.gameAI.*;
+import edu.ucsc.gameAI.conditions.*;
+import pacman.Evaluator;
 
 /**
  * This class may be used to execute the game in timed or un-timed modes, with or without
@@ -62,8 +65,15 @@ public class Executor
 		///*
 		//run the game in asynchronous mode.
 		boolean visual=true;
+		
+		// run unit tests during execution
+		boolean bRunUnitTests=true;
 //		exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
-		exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual);
+
+		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
+		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
+		exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
+
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
 		
@@ -118,26 +128,6 @@ public class Executor
 		System.out.println(avgScore/trials);
     }
     
-    public void runUnitTests(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController)
-    {
-    	Random rnd=new Random(0);
-		Game game;
-		EnumMap<GHOST,MOVE> moves; 
-    	
-		// pac man is 5 units down from blinky, blinky is edible, blinky should move up
-		game = new Game(rnd.nextLong(),0);
-		moves = ghostController.getMove(game.copy(),System.currentTimeMillis()+DELAY);
-		if (moves.get(GHOST.BLINKY) == MOVE.UP)
-		{
-			System.out.println("Test 1 passed");
-		}
-		else
-		{
-			System.out.println("Test 1 failed");
-		}
-		
-    }
-	
 	/**
 	 * Run a game in asynchronous mode: the game waits until a move is returned. In order to slow thing down in case
 	 * the controllers return very quickly, a time limit can be used. If fasted gameplay is required, this delay
@@ -165,6 +155,7 @@ public class Executor
 	        
 	        if(visual)
 	        	gv.repaint();
+	        
 		}
 	}
 	
@@ -176,9 +167,10 @@ public class Executor
      * @param ghostController The Ghosts controller
 	 * @param visual Indicates whether or not to use visuals
      */
-    public void runGameTimed(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,boolean visual)
+    public void runGameTimed(Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController,boolean visual,boolean bRunUnitTests)
 	{
 		Game game=new Game(0);
+		Evaluator eval = new Evaluator();
 		
 		GameView gv=null;
 		
@@ -209,6 +201,10 @@ public class Executor
 	        
 	        if(visual)
 	        	gv.repaint();
+	        
+	        if (bRunUnitTests)
+	        	eval.runUnitTests(game,pacManController,ghostController);
+
 		}
 		
 		pacManController.terminate();
