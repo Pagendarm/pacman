@@ -2,8 +2,6 @@ package edu.ucsc.gameAI.conditions;
 
 import edu.ucsc.gameAI.ICondition;
 import pacman.game.Game;
-import pacman.game.internal.Maze;
-import pacman.game.internal.Node;
 
 public class PacmanInRegion implements ICondition {
 	
