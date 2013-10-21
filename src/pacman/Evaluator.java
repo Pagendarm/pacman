@@ -35,12 +35,12 @@ import edu.ucsc.gameAI.*;
 import edu.ucsc.gameAI.conditions.*;
 import edu.ucsc.gameAI.decisionTrees.binary.BinaryDecision;
 import edu.ucsc.gameAI.fsm.*;
-import edu.ucsc.gameAI.hfsm.HFSM;
-import edu.ucsc.gameAI.hfsm.HState;
-import edu.ucsc.gameAI.hfsm.HTransition;
-import edu.ucsc.gameAI.hfsm.IHFSM;
-import edu.ucsc.gameAI.hfsm.IHState;
-import edu.ucsc.gameAI.hfsm.IHTransition;
+//import edu.ucsc.gameAI.hfsm.HFSM;
+//import edu.ucsc.gameAI.hfsm.HState;
+//import edu.ucsc.gameAI.hfsm.HTransition;
+//import edu.ucsc.gameAI.hfsm.IHFSM;
+//import edu.ucsc.gameAI.hfsm.IHState;
+//import edu.ucsc.gameAI.hfsm.IHTransition;
 
 /**
  * This class may be used to execute the game in timed or un-timed modes, with or without
@@ -64,7 +64,7 @@ public class Evaluator
 	Transition transCool ;
 	LinkedList<ITransition> listtcool ;
 	StateMachine fsm ;
-	IHFSM hfsm ;
+	/*IHFSM hfsm ;
 	IHFSM upIsUp ;
 	IHFSM upIsDown ;
 	Collection<IHState> statesLR;
@@ -85,7 +85,7 @@ public class Evaluator
 	IHTransition neutralUpUD;
 	IHTransition neutralDownUD;
 	IHTransition upUpUD;
-	IHTransition downDownUD;
+	IHTransition downDownUD;*/
 	
 	public Evaluator()
 	{
@@ -110,7 +110,7 @@ public class Evaluator
 		fsm.setCurrentState(stateChase);
 		
 		//create hfsm
-		hfsm = new HFSM();
+		/*hfsm = new HFSM();
 		upIsUp = new HFSM();
 		upIsDown = new HFSM();
 		
@@ -180,6 +180,7 @@ public class Evaluator
 		statesUpIsDown.add(downUD);
 		upIsDown.setStates(statesUpIsDown);
 		upIsDown.setInitialState(neutralUD);
+        */
 		
 		// for testing hfsm
 		bLeftState = true;
@@ -321,7 +322,7 @@ public class Evaluator
 			
 		// hfsm
 		boolean bCheck = true;
-		actions = hfsm.update(game).getActions();
+		//actions = hfsm.update(game).getActions();
 		if (game.getPacmanLastMoveMade() == MOVE.LEFT && !bLeftState)
 		{
 			bLeftState = true;

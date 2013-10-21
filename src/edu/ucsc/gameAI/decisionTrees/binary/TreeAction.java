@@ -2,6 +2,8 @@ package edu.ucsc.gameAI.decisionTrees.binary;
 
 import edu.ucsc.gameAI.IAction;
 import edu.ucsc.gameAI.ICondition;
+import edu.ucsc.gameAI.decisionTrees.binary.BinaryDecision;
+import pacman.game.Game;
 
 
 /**
@@ -11,13 +13,20 @@ import edu.ucsc.gameAI.ICondition;
  */
 public class TreeAction implements IBinaryNode {
 
-    private IBinaryDecision decision;
+    private BinaryDecision decision;
 
 	/**
 	 * Recurses through the binary tree until a leaf/action node is reached.
 	 * @return The terminal Action of evaluate the binary decision tree.
 	 */
-	IAction makeDecision()
+
+    public void setDecision(BinaryDecision d)
     {
+        decision = d;
+    }
+
+	public IAction makeDecision(Game game)
+    {
+        return decision.makeDecision(game);
     }
 }
