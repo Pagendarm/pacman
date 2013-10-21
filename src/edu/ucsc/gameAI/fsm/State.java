@@ -11,18 +11,16 @@ public class State implements IState {
 	IAction internal_action;
 	IAction exit_action;
 	IAction entering_action;
-	Vector <ITransition> transitions = new Vector<ITransition> ();
+	Collection <ITransition> transitions = new Vector<ITransition> ();
 	
 	// If no action enter NoAction
-	// Need to use setTransitions as well to create complete State instance
-	public State (IAction entering_action, IAction internal_action, IAction exit_action){
-		this.entering_action = entering_action;
-		this.internal_action = internal_action;
-		this.exit_action = exit_action;
+	// Empty instance
+	public State () {
+		
 	}
 	
-	// Accepts a Vector to initalize all the transitions of the state
-	public void setTransitions (Vector <ITransition> transitions) {
+	// Accepts a collection to initalize all the transitions of the state
+	public void setTransitions (Collection <ITransition> transitions) {
 		this.transitions.addAll(transitions);
 	}
 	
@@ -30,19 +28,29 @@ public class State implements IState {
 		return internal_action;
 	}
 
-	@Override
 	public IAction getEntryAction() {
 		return entering_action;
 	}
 
-	@Override
 	public IAction getExitAction() {
 		return exit_action;
 	}
 
-	@Override
 	public Collection<ITransition> getTransitions() {
 		return transitions;
 	}
+
+	public void setAction(IAction action) {
+		internal_action = action;	
+	}
+
+	public void setEntryAction(IAction action) {
+		entering_action = action;
+	}
+
+	public void setExitAction(IAction action) {
+		exit_action = action;
+	}
+
 
 }

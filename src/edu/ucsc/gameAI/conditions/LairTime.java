@@ -6,7 +6,6 @@ import pacman.game.Game;
 
 public class LairTime implements ICondition {
 	
-	Game game;
 	GHOST ghost;
 	int min;
 	int max;
@@ -14,15 +13,14 @@ public class LairTime implements ICondition {
 	// Returns TRUE if value is between min/max inclusive
 	// otherwise FALSE
 	
-	public LairTime(Game game, GHOST ghost, int min, int max)
+	public LairTime( GHOST ghost, int min, int max)
 	{
-		this.game=game;
 		this.ghost=ghost;
 		this.min = min;
 		this.max = max;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int value = game.getGhostLairTime(ghost);
 		return (value >=  min && value <= max);

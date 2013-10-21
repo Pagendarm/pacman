@@ -5,17 +5,15 @@ import pacman.game.Game;
 
 public class LevelCount implements ICondition {
 
-	Game game;
 	int level;
 	
 	// Returns TRUE if level count is between min/max
 	// otherwise FALSE
-	public LevelCount (Game game,int level) {
-		this.game = game;
+	public LevelCount (int level) {
 		this.level = level;
 	}
 	
-	public boolean test() {
+	public boolean test(Game game) {
 		return (game.getCurrentLevel() == level);
 	}
 

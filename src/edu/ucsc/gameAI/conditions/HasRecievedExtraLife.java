@@ -17,7 +17,7 @@ public class HasRecievedExtraLife implements ICondition {
 		number_of_lives = game.getPacmanNumberOfLivesRemaining();
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int temp = number_of_lives;
 		number_of_lives = game.getPacmanNumberOfLivesRemaining();

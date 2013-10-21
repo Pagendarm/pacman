@@ -5,18 +5,16 @@ import pacman.game.Game;
 
 public class IsPillStillAvailable implements ICondition {
 	
-	Game game;
 	int pill_index;
 	
 	// Returns TRUE if a pill at pill index is available 
 	// otherwise FALSE
-	public IsPillStillAvailable(Game game, int pill_index)
+	public IsPillStillAvailable( int pill_index)
 	{
-		this.game=game;
 		this.pill_index = pill_index;
 	}
 	
-	public boolean test() 
+	public boolean test(Game game) 
 	{
 		int pill_indices[] = game.getActivePillsIndices();
 		for (int i:pill_indices) {
