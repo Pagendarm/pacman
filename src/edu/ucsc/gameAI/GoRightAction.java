@@ -14,4 +14,5 @@ public void doAction() {	} // Does nothing: required for interface
 		return MOVE.RIGHT;
 	}
 	
+	public MOVE getMove(Game game) { return getMove();}
 }

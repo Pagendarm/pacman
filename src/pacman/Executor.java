@@ -67,7 +67,7 @@ public class Executor
 		boolean visual=true;
 		
 		// run unit tests during execution
-		boolean bRunUnitTests=true;
+		boolean bRunUnitTests=false;
 		//exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 
 		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
