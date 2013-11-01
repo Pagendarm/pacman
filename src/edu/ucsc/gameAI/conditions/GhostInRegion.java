@@ -2,8 +2,6 @@ package edu.ucsc.gameAI.conditions;
 
 import edu.ucsc.gameAI.ICondition;
 import pacman.game.Game;
-import pacman.game.internal.Maze;
-import pacman.game.internal.Node;
 import pacman.game.Constants.GHOST;
 
 public class GhostInRegion implements ICondition {

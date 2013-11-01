@@ -4,12 +4,14 @@ import edu.ucsc.gameAI.decisionTrees.binary.IBinaryNode;
 import pacman.game.Constants.*;
 import pacman.game.Game;
 
-public class SeekSelfAction implements IBinaryNode, IAction {
+public class SeekIndexAction implements IBinaryNode, IAction {
 	
 	GHOST ghost;
+	int index;
 	
-	public SeekSelfAction (GHOST ghost) {
+	public SeekIndexAction (GHOST ghost, int index) {
 		this.ghost = ghost;
+		this.index = index;
 	}
 	
 	public void doAction() {	} 
@@ -20,8 +22,8 @@ public class SeekSelfAction implements IBinaryNode, IAction {
 	public MOVE getMove(Game game) {
 		int gindex = game.getGhostCurrentNodeIndex(ghost);
 		MOVE lm = game.getGhostLastMoveMade(ghost);
-		DM dm = DM.EUCLID;
-		return game.getNextMoveTowardsTarget(gindex, gindex, lm,dm);
+		DM dm = DM.PATH;
+		return game.getNextMoveTowardsTarget(gindex, index, lm,dm);
 	}
 	
 	public MOVE getMove() { return MOVE.NEUTRAL;}

@@ -22,7 +22,6 @@ public class PacmanClose implements ICondition {
 		int pindex = game.getPacmanCurrentNodeIndex();
 		int gindex = game.getGhostCurrentNodeIndex(ghost);
         double dist   = game.getDistance(gindex, pindex, dm);
-
         return (dist < radius);
 	}
 }

@@ -25,152 +25,259 @@ import edu.ucsc.gameAI.*;
 public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 {
 	private EnumMap<GHOST, MOVE> myMoves=new EnumMap<GHOST, MOVE>(GHOST.class);
-	
+
 	IStateMachine pinkyFSM;
 	IStateMachine inkyFSM;
 	IStateMachine blinkyFSM;
 	IStateMachine sueFSM;
-	
-	int radius = 20;
-	
+
+	int radius = 35;
+
 	// Create initial FSM's
 	public MyGhosts () {
-		
+
 		for(GHOST ghost : GHOST.values()) {
 			switch (ghost){
+			case BLINKY:
+				blinkyFSM = create_ambush_fsm(ghost);
+				break;
 			case PINKY:
-				pinkyFSM = create_fsm(ghost);
+				pinkyFSM = create_ambush_fsm(ghost);
 				break;
 			case INKY:
-				inkyFSM = create_fsm(ghost);
-				break;
-			case BLINKY:
-				blinkyFSM = create_fsm(ghost);
+				inkyFSM = create_cautious_fsm(ghost);
 				break;
 			case SUE:
-				sueFSM = create_fsm(ghost);
+				sueFSM = create_hunter_fsm(ghost);
 				break;
-			
+
 			default: break;
 			}	
 		}
-		
+
 	}
-	
-	private IStateMachine create_fsm (GHOST ghost) {
+
+	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue)
+	{
+		myMoves.clear();
+
+		for(GHOST ghost : GHOST.values())	//for each ghost
+		{
+			Collection <IAction> pinkyACT,inkyACT,blinkyACT,sueACT;
+			pinkyACT=inkyACT=blinkyACT=sueACT=null;
+			// Update fsm's
+			switch (ghost){
+			case BLINKY:
+				blinkyACT = blinkyFSM.update(game);
+				//System.out.println ("DEBUG: RED AMBUSH "+blinkyFSM.getCurrentState().getAction());
+				break;
+			case PINKY:
+				pinkyACT= pinkyFSM.update(game);
+				//System.out.println ("DEBUG: PINK AMBUSH "+pinkyFSM.getCurrentState().getAction());
+
+				break;
+			case INKY:
+				inkyACT = inkyFSM.update(game);
+				System.out.println ("DEBUG: BLUE CAUTIOUS "+inkyFSM.getCurrentState().getAction());
+
+				break;
+			case SUE:
+				sueACT = sueFSM.update(game);
+				//System.out.println ("DEBUG: ORANGE AGRESSIVE "+sueFSM.getCurrentState().getAction());
+
+				break;
+
+			default: break;
+			}
+
+			if(game.doesGhostRequireAction(ghost))		//if ghost requires an action
+			{	
+
+				switch (ghost){
+				case PINKY:
+					if (pinkyACT != null && pinkyACT.iterator().hasNext())
+						myMoves.put(ghost,pinkyACT.iterator().next().getMove(game));
+					break;
+				case INKY:
+					if (inkyACT != null && inkyACT.iterator().hasNext())
+						myMoves.put(ghost,inkyACT.iterator().next().getMove(game));
+					break;
+				case BLINKY:
+					if (blinkyACT != null && blinkyACT.iterator().hasNext())
+						myMoves.put(ghost,blinkyACT.iterator().next().getMove(game));
+					break;
+				case SUE:
+					if (sueACT != null && sueACT.iterator().hasNext())
+						myMoves.put(ghost,sueACT.iterator().next().getMove(game));
+					break;
+
+				default: break;
+				}
+
+			}
+		}
+
+
+		return myMoves;
+	}
+
+	private IStateMachine create_hunter_fsm (GHOST ghost) {
 		// States
 		IState stateScatter = new State();
 		IState stateHunt = new State();
-		IState stateZone = new State();
-		
-		//  transition to zone from scatter
-		ITransition toZonefromScatter = new Transition();
-		toZonefromScatter.setCondition(new IsNotEdible(ghost));
-		toZonefromScatter.setTargetState(stateZone);
-		toZonefromScatter.setAction(new SpreadoutAction(ghost));
-		
+
+		//  transition to hunt from scatter
+		ITransition toHuntfromScatter = new Transition();
+		toHuntfromScatter.setCondition(new IsNotEdible(ghost));
+		toHuntfromScatter.setTargetState(stateHunt);
+
 		//  transition to scatter
 		ITransition toScatter = new Transition();
 		toScatter.setCondition(new IsEdible(ghost));
 		toScatter.setTargetState(stateScatter);
-		
+
+		// set actions for states
+		stateHunt.setAction(new SeekPacmanAction(ghost));
+		stateScatter.setAction(new AvoidPacmanAction(ghost));
+
+		// create transition lists
+		Collection<ITransition> listthunt = new LinkedList<ITransition>();
+		listthunt.add(toScatter);
+
+		Collection<ITransition> listtscatter = new LinkedList<ITransition>();
+		listtscatter.add(toHuntfromScatter);
+
+		// add transition lists
+		stateHunt.setTransitions(listthunt);
+		stateScatter.setTransitions(listtscatter);
+
+		// create fsm
+		IStateMachine fsm = new StateMachine();
+		fsm.setCurrentState(stateHunt);
+
+		return fsm;
+
+	}
+
+	private IStateMachine create_ambush_fsm (GHOST ghost) {
+		// States
+		IState stateScatter = new State();
+		IState stateHunt = new State();
+		IState stateZone = new State();
+
+		//  transition to zone from scatter
+		ITransition toZonefromScatter = new Transition();
+		toZonefromScatter.setCondition(new IsNotEdible(ghost));
+		toZonefromScatter.setTargetState(stateZone);
+
+		//  transition to scatter
+		ITransition toScatter = new Transition();
+		toScatter.setCondition(new IsEdible(ghost));
+		toScatter.setTargetState(stateScatter);
+
 		// transition to zone from hunt
 		ITransition toZonefromHunt = new Transition();
 		toZonefromHunt.setCondition(new PacmanFar(ghost,radius));
 		toZonefromHunt.setTargetState(stateZone);
-		toZonefromHunt.setAction(new SpreadoutAction(ghost));
-	
+
 		// transition to hunt from zone
 		ITransition toHuntfromZone = new Transition();
 		toHuntfromZone.setCondition(new PacmanClose(ghost,radius));
 		toHuntfromZone.setTargetState(stateHunt);
-		
+
 		// set actions for states
 		stateHunt.setAction(new SeekPacmanAction(ghost));
 		stateScatter.setAction(new AvoidPacmanAction(ghost));
 		stateZone.setAction(new SpreadoutAction(ghost));
-		
+
 		// create transition lists
 		Collection<ITransition> listthunt = new LinkedList<ITransition>();
 		listthunt.add(toZonefromHunt);
 		listthunt.add(toScatter);
-		
+
 		Collection<ITransition> listtscatter = new LinkedList<ITransition>();
 		listtscatter.add(toZonefromScatter);
-		
+
 		Collection<ITransition> listtzone = new LinkedList<ITransition>();
 		listtzone.add(toHuntfromZone);
 		listtzone.add(toScatter);
-		
+
 		// add transition lists
 		stateHunt.setTransitions(listthunt);
 		stateScatter.setTransitions(listtscatter);
 		stateZone.setTransitions(listtzone);
-		
+
 		// create fsm
 		IStateMachine fsm = new StateMachine();
-		fsm.setCurrentState(stateHunt);
-		
+		fsm.setCurrentState(stateZone);
+
 		return fsm;
 	}
-	
-	
-	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue)
-	{
-		myMoves.clear();
+
+	// This FSM act afraid regaurdless of edible UNTIL
+	// 1. Close enough (but closer then other ghosts) to pacman OR
+	// 2. No PowerPills Exist
+	private IStateMachine create_cautious_fsm (GHOST ghost) {
+		// States
+		IState stateScatter = new State();
+		IState stateHunt = new State();
+		IState stateEdible = new State();
+
+		// transition to edible
+		ITransition toEdible = new Transition();
+		toEdible.setCondition(new IsEdible(ghost));
+		toEdible.setTargetState(stateEdible);
+
+		// transition from edible bc safe
+		ITransition fromEdibletoScatter = new Transition();
+		fromEdibletoScatter.setCondition(new IsNotEdible(ghost));
+		fromEdibletoScatter.setTargetState(stateScatter);
 		
-		for(GHOST ghost : GHOST.values())	//for each ghost
-		{
-		  Collection <IAction> pinkyACT,inkyACT,blinkyACT,sueACT;
-		  pinkyACT=inkyACT=blinkyACT=sueACT=null;
-			// Update fsm's
-			switch (ghost){
-			case PINKY:
-				pinkyACT= pinkyFSM.update(game);
-				System.out.println ("DEBUG: "+pinkyFSM.getCurrentState().getAction());
-				System.out.println ("DEBUG: "+game.getNodeXCood(game.getGhostCurrentNodeIndex(ghost)));
-				break;
-			case INKY:
-				inkyACT = inkyFSM.update(game);
-				break;
-			case BLINKY:
-				blinkyACT = blinkyFSM.update(game);
-				break;
-			case SUE:
-				sueACT = sueFSM.update(game);
-				break;
-			
-			default: break;
-			}
-			
-			if(game.doesGhostRequireAction(ghost))		//if ghost requires an action
-			{	
-				
-				switch (ghost){
-				case PINKY:
-					if (pinkyACT != null && pinkyACT.iterator().hasNext())
-					myMoves.put(ghost,pinkyACT.iterator().next().getMove(game));
-					break;
-				case INKY:
-					if (inkyACT != null && inkyACT.iterator().hasNext())
-					myMoves.put(ghost,inkyACT.iterator().next().getMove(game));
-					break;
-				case BLINKY:
-					if (blinkyACT != null && blinkyACT.iterator().hasNext())
-					myMoves.put(ghost,blinkyACT.iterator().next().getMove(game));
-					break;
-				case SUE:
-					if (sueACT != null && sueACT.iterator().hasNext())
-					myMoves.put(ghost,sueACT.iterator().next().getMove(game));
-					break;
-				
-				default: break;
-				}
-				
-			}
-		}
-		
-		
-		return myMoves;
+		// transition to scatter after eating pacman
+		ITransition reset = new Transition();
+		reset.setCondition(new PacmanWasEaten());
+		reset.setTargetState(stateScatter);
+
+		//  transition to hunt from scatter bc NoPP
+		ITransition toHuntfromScatter = new Transition();
+		toHuntfromScatter.setCondition(new NoPowerPillAvailable());
+		toHuntfromScatter.setTargetState(stateHunt);
+
+		//  transition to hunt from scatter bc close
+		ITransition toHuntbecauseNear = new Transition();
+		int r = radius - 20; // Shorter (more cautious)
+		if (r <= 0) r = 10;
+		toHuntbecauseNear.setCondition(new PacmanClose(ghost, r)); 
+		toHuntbecauseNear.setTargetState(stateHunt);
+
+		// set actions for states
+		stateHunt.setAction(new SeekPacmanAction(ghost));
+		stateScatter.setAction(new AvoidPacmanAction(ghost));
+		stateEdible.setAction(new AvoidPacmanAction(ghost));
+
+		// create transition lists
+		Collection<ITransition> listtscatter = new LinkedList<ITransition>();
+		listtscatter.add(toHuntfromScatter);
+		listtscatter.add(toEdible);
+		listtscatter.add(toHuntbecauseNear);
+
+		Collection<ITransition> listtedible = new LinkedList<ITransition>();
+		listtedible.add(fromEdibletoScatter);
+
+		Collection<ITransition> listthunt = new LinkedList<ITransition>();
+		listthunt.add(toEdible);
+		listthunt.add(reset);
+
+		// add transition lists
+		stateScatter.setTransitions(listtscatter);
+		stateEdible.setTransitions(listtedible);
+		stateHunt.setTransitions(listthunt);
+
+		// create fsm
+		IStateMachine fsm = new StateMachine();
+		fsm.setCurrentState(stateScatter);
+
+		return fsm;
+
 	}
 }
