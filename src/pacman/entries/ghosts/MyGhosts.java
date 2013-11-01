@@ -78,7 +78,7 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 				break;
 			case INKY:
 				inkyACT = inkyFSM.update(game);
-				System.out.println ("DEBUG: BLUE CAUTIOUS "+inkyFSM.getCurrentState().getAction());
+				//System.out.println ("DEBUG: BLUE CAUTIOUS "+inkyFSM.getCurrentState().getAction());
 
 				break;
 			case SUE:
@@ -232,7 +232,7 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		ITransition fromEdibletoScatter = new Transition();
 		fromEdibletoScatter.setCondition(new IsNotEdible(ghost));
 		fromEdibletoScatter.setTargetState(stateScatter);
-		
+
 		// transition to scatter after eating pacman
 		ITransition reset = new Transition();
 		reset.setCondition(new PacmanWasEaten());

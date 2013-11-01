@@ -16,7 +16,7 @@ public class NoPowerPillAvailable implements ICondition {
 	public boolean test(Game game) 
 	{
 		int[] pp = game.getActivePillsIndices();
-		for (int i=0;i<4;i++){
+		for (int i=0;i<pp.length;i++){
 			if (game.isPowerPillStillAvailable(pp[i])) return false;
 		}
 		return true;
