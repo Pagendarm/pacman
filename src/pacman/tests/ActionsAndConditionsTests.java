@@ -139,7 +139,7 @@ public class ActionsAndConditionsTests {
 		else
 			SayOnce("CurrentPacmanNodeIndex failed");
 		++tests;
-		if ((new NumberOfLivesRemaining(game.getPacmanNumberOfLivesRemaining()).test(game)))
+		if ((new NumberOfLivesRemaining(game.getPacmanNumberOfLivesRemaining(),game.getPacmanNumberOfLivesRemaining()).test(game)))
 			++passed;//SayOnce("CurrentLevelTime passed");
 		else
 			SayOnce("NumberOfLivesRemaining failed");

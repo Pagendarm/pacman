@@ -5,19 +5,21 @@ import pacman.game.Game;
 
 public class NumberOfLivesRemaining implements ICondition {
 	
-	int input;
+	int max;
+	int min;
 	
 	// Returns TRUE if value is equal to input
 	// otherwise FALSE
 	
-	public NumberOfLivesRemaining( int input)
+	public NumberOfLivesRemaining( int min, int max)
 	{
-		this.input = input;
+		this.max = max;
+		this.min = min;
 	}
 	
 	public boolean test(Game game) 
 	{
 		int value = game.getPacmanNumberOfLivesRemaining();
-		return (value == input);
+		return (value >= min && value <= max);
 	}
 }
