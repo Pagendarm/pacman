@@ -6,8 +6,8 @@ import pacman.game.Constants.MOVE;
 public class DijNode implements Comparable<DijNode>
 {
     public double dist;
-    public int x, y;
     public boolean visited = false;
+    public int x, y;
     public int index;
     public int[] neighbors;
 

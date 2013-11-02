@@ -61,7 +61,7 @@ public class Executor
 
 		
 		//run multiple games in batch mode - good for testing.
-		int numTrials=10000;
+		int numTrials=1000;
 		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		 
 		
@@ -218,7 +218,8 @@ public class Executor
 	        game.advanceGame(pacManController.getMove(),ghostController.getMove());	   
 
             if(((MyPacMan)pacManController).timeGraph != null) {
-                gv.setGraph(((MyPacMan)pacManController).dijGhost.graph);
+                gv.setGraph(((MyPacMan)pacManController).timeGraph);
+                //gv.setGraph(((MyPacMan)pacManController).dijGhost.graph);
             }
 	        
 	        if(visual)

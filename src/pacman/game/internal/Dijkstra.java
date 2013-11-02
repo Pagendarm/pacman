@@ -50,6 +50,7 @@ public class Dijkstra
 
         PriorityQueue<DijNode> open = new PriorityQueue<DijNode>();
 
+        // Ghosts can't turn around
         if(ghost) {
             start.visited = true;
 
