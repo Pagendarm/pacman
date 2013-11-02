@@ -306,22 +306,23 @@ public class Evaluator
 		// FSM (up when pacman in the bottom half of screen, down otherwise)
 		
 		Collection<IAction> actions = fsm.update(game);
+		
 		// test result
 		int ip = game.getPacmanCurrentNodeIndex();
 		pacx = game.getNodeXCood(ip);
 		pacy = game.getNodeYCood(ip);
 		if (ix1 <= pacx && ix2 >= pacx &&
 			iy1 <= pacy && iy2 >= pacy &&
-			actions.size() > 0)
+			actions.iterator().hasNext())
 		{
-			if (actions.iterator().next().getClass() != GoDownAction.class)
-				System.out.println("FSM action result failed");
 			if (fsm.getCurrentState() != stateRun)
 				System.out.println("FSM state failed");
+			if (actions.iterator().next().getClass() != GoDownAction.class)
+				System.out.println("FSM action result failed");
 		}
 			
 		// hfsm
-		boolean bCheck = true;
+		boolean bCheck = false;
 		//actions = hfsm.update(game).getActions();
 		if (game.getPacmanLastMoveMade() == MOVE.LEFT && !bLeftState)
 		{

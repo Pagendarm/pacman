@@ -29,14 +29,19 @@ public class StateMachine implements IStateMachine {
 			}
 		}
 		
-		Vector<IAction> actions = new Vector<IAction>(); // Collection to return
+		Collection<IAction> actions = new Vector<IAction>(); // Collection to return
 		
 		if (triggered_transition != null) {
 			IState target_state = triggered_transition.getTargetState();
 			
 			// Update list of actions to transition
+			if (current_state.getExitAction() != null)
 			actions.add(current_state.getExitAction());
+
+			if (triggered_transition.getAction() != null)
 			actions.add(triggered_transition.getAction());
+			
+			if (target_state.getEntryAction() != null)
 			actions.add(target_state.getEntryAction());
 			
 			// Update current_state

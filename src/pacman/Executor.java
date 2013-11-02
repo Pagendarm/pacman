@@ -68,13 +68,13 @@ public class Executor
 		
 		// run unit tests during execution
 		boolean bRunUnitTests=true;
-//		exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
+		//exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 
 		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
 		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
 		exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
 
-//		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
+		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
 		
 		/*
