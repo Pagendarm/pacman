@@ -2,6 +2,7 @@ package edu.ucsc.gameAI;
 
 import pacman.game.Game;
 import pacman.game.Constants.MOVE;
+import pacman.game.Game;
 
 
 /**

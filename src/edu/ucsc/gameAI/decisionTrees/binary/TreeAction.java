@@ -1,7 +1,6 @@
 package edu.ucsc.gameAI.decisionTrees.binary;
 
 import edu.ucsc.gameAI.IAction;
-import edu.ucsc.gameAI.ICondition;
 import edu.ucsc.gameAI.decisionTrees.binary.BinaryDecision;
 import pacman.game.Game;
 

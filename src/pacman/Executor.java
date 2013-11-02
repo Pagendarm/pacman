@@ -64,7 +64,11 @@ public class Executor
 		int numTrials=1000;
 		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		 
+		int numTrials=10000;
+		exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		
+		//exec.runExperiment(new StarterPacMan(),new MyGhosts(),numTrials);
+		 
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.
 		int delay=5;
@@ -77,19 +81,22 @@ public class Executor
 		boolean visual=true;
 		
 		// run unit tests during execution
-		boolean bRunUnitTests=true;
+		boolean bRunUnitTests=false;
 		//exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 		boolean bRunUnitTests=false;
 		
 		
-		exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
+		//exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
 		
 		// mypacman testing
 		//exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
 
 		// myghost testing
+		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
+		
 		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
-		exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
+		
+		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
 
 		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
