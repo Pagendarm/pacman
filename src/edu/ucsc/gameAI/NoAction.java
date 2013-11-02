@@ -17,6 +17,4 @@ public class NoAction implements IAction, IBinaryNode  {
 	}
 	
 	public MOVE getMove(Game game) { return getMove();}
-
-    public MOVE getMove(Game game) { return getMove(); }
 }

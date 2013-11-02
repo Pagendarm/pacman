@@ -81,128 +81,106 @@ public class Evaluator
 		else if (actResults.size() < 1)
 			System.out.println("Required classes are not implemented. Tests not run.");			
 		else
-		{
-			avg=0;
-			iter = actResults.iterator();
-			while (iter.hasNext())
-				avg+=iter.next();
-			
-<<<<<<< HEAD
-		// FSM (up when pacman in the bottom half of screen, down otherwise)
-		
-		Collection<IAction> actions = fsm.update(game);
-		
-		// test result
-		int ip = game.getPacmanCurrentNodeIndex();
-		pacx = game.getNodeXCood(ip);
-		pacy = game.getNodeYCood(ip);
-		if (ix1 <= pacx && ix2 >= pacx &&
-			iy1 <= pacy && iy2 >= pacy &&
-			actions.iterator().hasNext())
-		{
-			if (fsm.getCurrentState() != stateRun)
-				System.out.println("FSM state failed");
-			if (actions.iterator().next().getClass() != GoDownAction.class)
-				System.out.println("FSM action result failed");
-		}
-			
-		// hfsm
-		boolean bCheck = false;
-		//actions = hfsm.update(game).getActions();
-		if (game.getPacmanLastMoveMade() == MOVE.LEFT && !bLeftState)
-			System.out.println(100*avg/actResults.size()+"% of points.");
-		}
-		System.out.print("Decision Trees: ");
-		if (!testDecisionTrees)
-			System.out.println("Test Disabled.");
-		else if (decResults.size() < 1)
-			System.out.println("Required classes are not implemented. Tests not run.");			
-		else
-		{
-			avg=0;
-			iter = decResults.iterator();
-			while (iter.hasNext())
-				avg+=iter.next();
-			
-			System.out.println(100*avg/decResults.size() + "% of points.");
-		}
-		System.out.print("FSM: ");
-		if (!testFSMs)
-			System.out.println("Test Disabled.");
-		else if (fsmResults.size() < 1)
-			System.out.println("Required classes are not implemented. Tests not run.");			
-		else
-		{
-			avg=0;
-			iter = fsmResults.iterator();
-			while (iter.hasNext())
-				avg+=iter.next();
-			
-			System.out.println(100*avg/fsmResults.size()+"% of points.");
-		}
-		System.out.print("HFSM: ");
-		if (!testHFSMs)
-			System.out.println("Test Disabled.");
-		else if (hfsmResults.size() < 1)
-			System.out.println("HFSM classes are not implemented. Tests not run.");			
-		else
-		{
-			avg=0;
-			iter = hfsmResults.iterator();
-			while (iter.hasNext())
-				avg+=iter.next();
-			
-			System.out.println(100*avg/hfsmResults.size()+"% of points.");
-		}
-		
-		
-	}
-	
+        {
+            avg=0;
+            iter = actResults.iterator();
+            while (iter.hasNext())
+                avg+=iter.next();
+
+
+            // hfsm
+            boolean bCheck = false;
+            //actions = hfsm.update(game).getActions();
+            System.out.print("Decision Trees: ");
+            if (!testDecisionTrees)
+                System.out.println("Test Disabled.");
+            else if (decResults.size() < 1)
+                System.out.println("Required classes are not implemented. Tests not run.");			
+            else
+            {
+                avg=0;
+                iter = decResults.iterator();
+                while (iter.hasNext())
+                    avg+=iter.next();
+
+                System.out.println(100*avg/decResults.size() + "% of points.");
+            }
+            System.out.print("FSM: ");
+            if (!testFSMs)
+                System.out.println("Test Disabled.");
+            else if (fsmResults.size() < 1)
+                System.out.println("Required classes are not implemented. Tests not run.");			
+            else
+            {
+                avg=0;
+                iter = fsmResults.iterator();
+                while (iter.hasNext())
+                    avg+=iter.next();
+
+                System.out.println(100*avg/fsmResults.size()+"% of points.");
+            }
+            System.out.print("HFSM: ");
+            if (!testHFSMs)
+                System.out.println("Test Disabled.");
+            else if (hfsmResults.size() < 1)
+                System.out.println("HFSM classes are not implemented. Tests not run.");			
+            else
+            {
+                avg=0;
+                iter = hfsmResults.iterator();
+                while (iter.hasNext())
+                    avg+=iter.next();
+
+                System.out.println(100*avg/hfsmResults.size()+"% of points.");
+            }
+        }
+    }
+
     // could be a function run every frame of runExperiment, accepting game as a parameter
     public void runUnitTests(Game game, Controller<MOVE> pacManController,Controller<EnumMap<GHOST,MOVE>> ghostController, boolean testActionsAndConditions, boolean testDecisionTrees, boolean testFSMs, boolean testHFSMs)
     {
-    	this.testActionsAndConditions = testActionsAndConditions; 
-    	this.testDecisionTrees = testDecisionTrees; 
-    	this.testFSMs = testFSMs; 
-    	this.testHFSMs = testHFSMs;
-    	String packageBase = "edu.ucsc.gameAI.";
-    	String conditionBase = packageBase + "conditions.";
-    	String decisionTreeBase = packageBase + "decisionTrees.binary.";
-    	String fsmBase = packageBase + "fsm.";
-    	String hfsmBase = packageBase + "hfsm.";
-    
-    	boolean classesExist;
-    	
-    	if(testActionsAndConditions) {
-    		classesExist = true;
-    		
-    		//actions
-    		if (!testForClass(packageBase + "GoUpAction"))
-    			classesExist = false;
-    		if (!testForClass(packageBase + "GoDownAction"))
-    			classesExist = false;
-    		
-    		//general game state conditions
-    		if (!testForClass(conditionBase + "MazeIndex"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "LevelCount"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "CurrentLevelTime"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "TotalTime"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "Score"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "GhostEatScore"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "TimeOfLastGlobalReversal"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "PacmanWasEaten"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "PillWasEaten"))
-    			classesExist = false;
-    		if (!testForClass(conditionBase + "PowerPillWasEaten"))
-    			classesExist = false;
+        this.testActionsAndConditions = testActionsAndConditions; 
+        this.testDecisionTrees = testDecisionTrees; 
+        this.testFSMs = testFSMs; 
+        this.testHFSMs = testHFSMs;
+        String packageBase = "edu.ucsc.gameAI.";
+        String conditionBase = packageBase + "conditions.";
+        String decisionTreeBase = packageBase + "decisionTrees.binary.";
+        String fsmBase = packageBase + "fsm.";
+        String hfsmBase = packageBase + "hfsm.";
+
+        boolean classesExist;
+
+        if(testActionsAndConditions) {
+            classesExist = true;
+
+            //actions
+            if (!testForClass(packageBase + "GoUpAction"))
+                classesExist = false;
+            if (!testForClass(packageBase + "GoDownAction"))
+                classesExist = false;
+
+            //general game state conditions
+            if (!testForClass(conditionBase + "MazeIndex"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "LevelCount"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "CurrentLevelTime"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "TotalTime"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "Score"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "GhostEatScore"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "TimeOfLastGlobalReversal"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "PacmanWasEaten"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "PillWasEaten"))
+                classesExist = false;
+            if (!testForClass(conditionBase + "PowerPillWasEaten"))
+                classesExist = false;
     		if (!testForClass(conditionBase + "IsPillStillAvailable"))
     			classesExist = false;
     		if (!testForClass(conditionBase + "IsPowerPillStillAvailable"))

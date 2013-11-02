@@ -61,8 +61,6 @@ public class Executor
 
 		
 		//run multiple games in batch mode - good for testing.
-		int numTrials=1000;
-		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		 
 		int numTrials=10000;
 		exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
@@ -81,8 +79,6 @@ public class Executor
 		boolean visual=true;
 		
 		// run unit tests during execution
-		boolean bRunUnitTests=false;
-		//exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 		boolean bRunUnitTests=false;
 		
 		
