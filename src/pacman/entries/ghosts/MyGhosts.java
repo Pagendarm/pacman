@@ -39,13 +39,13 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		for(GHOST ghost : GHOST.values()) {
 			switch (ghost){
 			case BLINKY:
-				blinkyFSM = create_ambush_fsm(ghost);
+				blinkyFSM = create_cautious_fsm(ghost);
 				break;
 			case PINKY:
 				pinkyFSM = create_ambush_fsm(ghost);
 				break;
 			case INKY:
-				inkyFSM = create_cautious_fsm(ghost);
+				inkyFSM = create_ambush_fsm(ghost);
 				break;
 			case SUE:
 				sueFSM = create_hunter_fsm(ghost);
@@ -69,21 +69,15 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 			switch (ghost){
 			case BLINKY:
 				blinkyACT = blinkyFSM.update(game);
-				//System.out.println ("DEBUG: RED AMBUSH "+blinkyFSM.getCurrentState().getAction());
 				break;
 			case PINKY:
 				pinkyACT= pinkyFSM.update(game);
-				//System.out.println ("DEBUG: PINK AMBUSH "+pinkyFSM.getCurrentState().getAction());
-
 				break;
 			case INKY:
 				inkyACT = inkyFSM.update(game);
-				//System.out.println ("DEBUG: BLUE CAUTIOUS "+inkyFSM.getCurrentState().getAction());
-
 				break;
 			case SUE:
 				sueACT = sueFSM.update(game);
-				//System.out.println ("DEBUG: ORANGE AGRESSIVE "+sueFSM.getCurrentState().getAction());
 
 				break;
 
@@ -126,10 +120,10 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		IState stateScatter = new State();
 		IState stateHunt = new State();
 
-		//  transition to hunt from scatter
-		ITransition toHuntfromScatter = new Transition();
-		toHuntfromScatter.setCondition(new IsNotEdible(ghost));
-		toHuntfromScatter.setTargetState(stateHunt);
+		//  transition to hunt from scatter or avoid
+		ITransition toHunt = new Transition();
+		toHunt.setCondition(new IsNotEdible(ghost));
+		toHunt.setTargetState(stateHunt);
 
 		//  transition to scatter
 		ITransition toScatter = new Transition();
@@ -145,7 +139,7 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		listthunt.add(toScatter);
 
 		Collection<ITransition> listtscatter = new LinkedList<ITransition>();
-		listtscatter.add(toHuntfromScatter);
+		listtscatter.add(toHunt);
 
 		// add transition lists
 		stateHunt.setTransitions(listthunt);
@@ -164,16 +158,22 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		IState stateScatter = new State();
 		IState stateHunt = new State();
 		IState stateZone = new State();
+		IState stateAvoid = new State();
 
 		//  transition to zone from scatter
 		ITransition toZonefromScatter = new Transition();
 		toZonefromScatter.setCondition(new IsNotEdible(ghost));
 		toZonefromScatter.setTargetState(stateZone);
 
-		//  transition to scatter
-		ITransition toScatter = new Transition();
-		toScatter.setCondition(new IsEdible(ghost));
-		toScatter.setTargetState(stateScatter);
+		//  transition to zone from avoid
+		ITransition toZonefromAvoid = new Transition();
+		toZonefromAvoid.setCondition(new IsNotEdible(ghost));
+		toZonefromAvoid.setTargetState(stateZone);
+
+		//  transition to avoid
+		ITransition toAvoid = new Transition();
+		toAvoid.setCondition(new IsEdible(ghost));
+		toAvoid.setTargetState(stateScatter);
 
 		// transition to zone from hunt
 		ITransition toZonefromHunt = new Transition();
@@ -185,27 +185,45 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 		toHuntfromZone.setCondition(new PacmanClose(ghost,radius));
 		toHuntfromZone.setTargetState(stateHunt);
 
+		//  transition to scatter from avoid
+		int r = 20;
+		ITransition toScatterfromAvoid = new Transition();
+		toScatterfromAvoid.setCondition(new PacmanClose(ghost,r));
+		toScatterfromAvoid.setTargetState(stateScatter);
+
 		// set actions for states
-		stateHunt.setAction(new SeekPacmanAction(ghost));
+		stateHunt.setAction(new SeekPacmanPlusAction(ghost));
 		stateScatter.setAction(new AvoidPacmanAction(ghost));
 		stateZone.setAction(new SpreadoutAction(ghost));
+		stateAvoid.setAction(new AvoidPacmanPlusAction(ghost));
+
+		// transition to zone after eating pacman
+		ITransition reset = new Transition();
+		reset.setCondition(new PacmanWasEaten());
+		reset.setTargetState(stateZone);
 
 		// create transition lists
 		Collection<ITransition> listthunt = new LinkedList<ITransition>();
 		listthunt.add(toZonefromHunt);
-		listthunt.add(toScatter);
+		listthunt.add(toAvoid);
+		listthunt.add(reset);
 
 		Collection<ITransition> listtscatter = new LinkedList<ITransition>();
 		listtscatter.add(toZonefromScatter);
 
 		Collection<ITransition> listtzone = new LinkedList<ITransition>();
 		listtzone.add(toHuntfromZone);
-		listtzone.add(toScatter);
+		listtzone.add(toAvoid);
+
+		Collection<ITransition> listtavoid = new LinkedList<ITransition>();
+		listtavoid.add(toScatterfromAvoid);
+		listtavoid.add(toZonefromAvoid);
 
 		// add transition lists
 		stateHunt.setTransitions(listthunt);
 		stateScatter.setTransitions(listtscatter);
 		stateZone.setTransitions(listtzone);
+		stateAvoid.setTransitions(listtavoid);
 
 		// create fsm
 		IStateMachine fsm = new StateMachine();
@@ -240,13 +258,13 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 
 		//  transition to hunt from scatter bc NoPP
 		ITransition toHuntfromScatter = new Transition();
-		toHuntfromScatter.setCondition(new NoPowerPillAvailable());
+		toHuntfromScatter.setCondition(new NumPowerPillAvailable(2));
 		toHuntfromScatter.setTargetState(stateHunt);
 
 		//  transition to hunt from scatter bc close
 		ITransition toHuntbecauseNear = new Transition();
 		int r = radius - 20; // Shorter (more cautious)
-		if (r <= 0) r = 10;
+		if (r < 20) r = 20;
 		toHuntbecauseNear.setCondition(new PacmanClose(ghost, r)); 
 		toHuntbecauseNear.setTargetState(stateHunt);
 
@@ -263,6 +281,7 @@ public class MyGhosts extends Controller<EnumMap<GHOST,MOVE>>
 
 		Collection<ITransition> listtedible = new LinkedList<ITransition>();
 		listtedible.add(fromEdibletoScatter);
+		listtedible.add(reset);
 
 		Collection<ITransition> listthunt = new LinkedList<ITransition>();
 		listthunt.add(toEdible);

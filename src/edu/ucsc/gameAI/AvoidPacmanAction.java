@@ -23,7 +23,7 @@ public class AvoidPacmanAction implements IBinaryNode, IAction {
 		int pindex = game.getPacmanCurrentNodeIndex();
 		int gindex = game.getGhostCurrentNodeIndex(ghost);
 		MOVE lm = game.getGhostLastMoveMade(ghost);
-		DM dm = DM.EUCLID;
+		DM dm = DM.MANHATTAN;
 		return game.getNextMoveAwayFromTarget(gindex, pindex, lm,dm);
 	}
 	

@@ -43,71 +43,51 @@ public class SpreadoutAction implements IBinaryNode, IAction {
 		int quad[] = {0,0,0,0};
 
 		for(GHOST g : GHOST.values()) {
-			if (g != ghost) { // Doesn't count itself
-				int index = game.getGhostCurrentNodeIndex(g);
-				int gx = game.getNodeXCood(index);
-				int gy = game.getNodeYCood(index);
 
-				// quad 1
-				if ((gx >= 0) && (gx < x1) && (gy >=0) && (gy < y1 )) {
-					quad[0] += 1;
-				}
-				// quad 2
-				else if ((gx >= x1) && (gx < x2) && (gy >=0) && (gy < y1 )) {
-					quad[1] += 1;
-				}
-				// quad 3
-				else if ((gx >= 0) && (gx < x1) && (gy >=y1) && (gy < y2 )) {
-					quad[2] += 1;
-				}
-				// quad 4
-				else quad[3] += 1;
+			int index = game.getGhostCurrentNodeIndex(g);
+			int gx = game.getNodeXCood(index);
+			int gy = game.getNodeYCood(index);
 
+			// quad 1
+			if ((gx >= 0) && (gx < x1) && (gy >=0) && (gy < y1 )) {
+				quad[0] += 1;
 			}
-		}
-		
-		// Pacman
-		int index = game.getPacmanCurrentNodeIndex();
-		int px = game.getNodeXCood(index);
-		int py = game.getNodeYCood(index);
+			// quad 2
+			else if ((gx >= x1) && (gx < x2) && (gy >=0) && (gy < y1 )) {
+				quad[1] += 1;
+			}
+			// quad 3
+			else if ((gx >= 0) && (gx < x1) && (gy >=y1) && (gy < y2 )) {
+				quad[2] += 1;
+			}
+			// quad 4
+			else quad[3] += 1;
 
-		// quad 1
-		if ((px >= 0) && (px < x1) && (py >=0) && (py < y1 )) {
-			quad[0] += 1;
-		}
-		// quad 2
-		else if ((px >= x1) && (px < x2) && (py >=0) && (py < y1 )) {
-			quad[1] += 1;
-		}
-		// quad 3
-		else if ((px >= 0) && (px < x1) && (py >=y1) && (py < y2 )) {
-			quad[2] += 1;
-		}
-		// quad 4
-		else quad[3] += 1;
 
-		int quad_n = index_of_max(quad) +1;
-		
+		}
+
+		int quad_n = index_of_min(quad);
+
 		switch (quad_n ) {
+		case 0:
+			return 40;
 		case 1:
-			return 50;
+			return 90;
 		case 2:
-			return 80;
+			return 920;
 		case 3:
-			return 930;
-		case 4:
-			return 980;
+			return 990;
 		default:
 			return 550;
 		}	
 	}
-	
-	private int index_of_max (int[] array){
-		int max = Integer.MIN_VALUE;
+
+	private int index_of_min (int[] array){
+		int min = Integer.MAX_VALUE;
 		int index = 0;
 		for (int i=0; i < array.length;i++){
-			if (array[i] > max) {
-				max = array[i];
+			if (array[i] < min) {
+				min = array[i];
 				index = i;
 			}
 		}
