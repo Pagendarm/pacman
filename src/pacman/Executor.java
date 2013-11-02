@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
+import java.util.Scanner;
 
 import pacman.controllers.Controller;
 import pacman.controllers.HumanController;
@@ -24,6 +25,7 @@ import pacman.controllers.examples.RandomPacMan;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.controllers.examples.StarterPacMan;
 import pacman.entries.ghosts.*;
+import pacman.entries.pacman.*;
 import pacman.game.Game;
 import pacman.game.GameView;
 import static pacman.game.Constants.*;
@@ -40,6 +42,14 @@ import pacman.Evaluator;
 @SuppressWarnings("unused")
 public class Executor
 {	
+	//enable and disable individual tests
+	boolean runActionsAndConditionsTests = true;
+	boolean runDecisionTreeTests = true;
+	boolean runFSMTests = true;
+	boolean runHFSMTests = true;
+	
+	final private int TEST_DURATION = 600; 
+	
 	/**
 	 * The main method. Several options are listed - simply remove comments to use the option you want.
 	 *
@@ -79,7 +89,20 @@ public class Executor
 
 		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
+
 		
+		
+		exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
+		
+		// mypacman testing
+		//exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
+
+		// myghost testing
+		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
+		
+		// for playing pacman with keyboard
+		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new Legacy2TheReckoning(),visual,bRunUnitTests);
+
 		/*
 		//run the game in asynchronous mode but advance as soon as both controllers are ready  - this is the mode of the competition.
 		//time limit of DELAY ms still applies.
@@ -149,7 +172,7 @@ public class Executor
 		
 		if(visual)
 			gv=new GameView(game).showGame();
-		
+
 		while(!game.gameOver())
 		{
 	        game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
@@ -158,7 +181,6 @@ public class Executor
 	        
 	        if(visual)
 	        	gv.repaint();
-	        
 		}
 	}
 	
@@ -186,8 +208,13 @@ public class Executor
 		new Thread(pacManController).start();
 		new Thread(ghostController).start();
 		
+        Scanner scanner = new Scanner(System.in);
+
 		while(!game.gameOver())
 		{
+            //if(scanner.hasNext())
+            //    scanner.nextLine();
+
 			pacManController.update(game.copy(),System.currentTimeMillis()+DELAY);
 			ghostController.update(game.copy(),System.currentTimeMillis()+DELAY);
 
@@ -201,13 +228,23 @@ public class Executor
 			}
 
 	        game.advanceGame(pacManController.getMove(),ghostController.getMove());	   
+
+            if(((MyPacMan)pacManController).timeGraph != null) {
+                gv.setGraph(((MyPacMan)pacManController).dijGhost.graph);
+            }
 	        
 	        if(visual)
 	        	gv.repaint();
 	        
-	        if (bRunUnitTests)
-	        	eval.runUnitTests(game,pacManController,ghostController);
-
+	        if (bRunUnitTests) {
+	        	eval.runUnitTests(game,pacManController,ghostController, runActionsAndConditionsTests, runDecisionTreeTests, runFSMTests, runHFSMTests);
+	        	if(game.getCurrentLevelTime() > TEST_DURATION)
+	        	{
+	        		System.out.println("Tests concluded. Scores:");
+	        		eval.printScores();
+	        		return;
+	        	}
+	        }
 		}
 		
 		pacManController.terminate();
