@@ -105,7 +105,6 @@ public class MyPacMan extends Controller<MOVE>
         } else {
             move = seek.getMove(game);
         }
-        System.out.println("" + move);
         /*
            for(Iterator<IAction> iterator = actions.iterator(); iterator.hasNext();)
            {
