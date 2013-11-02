@@ -61,10 +61,17 @@ public class Executor
 
 		
 		//run multiple games in batch mode - good for testing.
+<<<<<<< HEAD
 		int numTrials=1000;
 		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		 
+=======
+		int numTrials=10000;
+		exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
+>>>>>>> origin/Eric
 		
+		//exec.runExperiment(new StarterPacMan(),new MyGhosts(),numTrials);
+		 
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.
 		int delay=5;
@@ -77,10 +84,8 @@ public class Executor
 		boolean visual=true;
 		
 		// run unit tests during execution
-<<<<<<< HEAD
-		boolean bRunUnitTests=true;
+		boolean bRunUnitTests=false;
 		//exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
-=======
 		boolean bRunUnitTests=false;
 		
 		
@@ -88,17 +93,19 @@ public class Executor
 		
 		// mypacman testing
 		//exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
->>>>>>> Chase
 
-		// myghost testing
-		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
 <<<<<<< HEAD
-		exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
+		// myghost testing
+=======
+		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
+		
+>>>>>>> origin/Eric
+		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
+		
+		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
 
 		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
-=======
->>>>>>> Chase
 		
 		// for playing pacman with keyboard
 		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new Legacy2TheReckoning(),visual,bRunUnitTests);
