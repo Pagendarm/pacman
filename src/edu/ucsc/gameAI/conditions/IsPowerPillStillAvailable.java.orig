@@ -17,9 +17,9 @@ public class IsPowerPillStillAvailable implements ICondition {
 	public boolean test(Game game) 
 	{
 <<<<<<< HEAD
-        return game.isPowerPillStillAvailable(ppill_index);
-=======
 		return game.isPowerPillStillAvailable(ppill_index);
->>>>>>> origin/Eric
+=======
+        return game.isPowerPillStillAvailable(ppill_index);
+>>>>>>> Chase
 	}
 }

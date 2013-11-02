@@ -88,15 +88,6 @@ public class Evaluator
 				avg+=iter.next();
 			
 <<<<<<< HEAD
-			System.out.println(100*avg/actResults.size()+"% of points.");
-		}
-		System.out.print("Decision Trees: ");
-		if (!testDecisionTrees)
-			System.out.println("Test Disabled.");
-		else if (decResults.size() < 1)
-			System.out.println("Required classes are not implemented. Tests not run.");			
-		else
-=======
 		// FSM (up when pacman in the bottom half of screen, down otherwise)
 		
 		Collection<IAction> actions = fsm.update(game);
@@ -119,7 +110,16 @@ public class Evaluator
 		boolean bCheck = false;
 		//actions = hfsm.update(game).getActions();
 		if (game.getPacmanLastMoveMade() == MOVE.LEFT && !bLeftState)
->>>>>>> origin/Eric
+=======
+			System.out.println(100*avg/actResults.size()+"% of points.");
+		}
+		System.out.print("Decision Trees: ");
+		if (!testDecisionTrees)
+			System.out.println("Test Disabled.");
+		else if (decResults.size() < 1)
+			System.out.println("Required classes are not implemented. Tests not run.");			
+		else
+>>>>>>> Chase
 		{
 			avg=0;
 			iter = decResults.iterator();

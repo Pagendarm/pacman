@@ -17,5 +17,4 @@ public class IsPillStillAvailable implements ICondition {
 	public boolean test(Game game) 
 	{
 		return game.isPillStillAvailable(pill_index);
-	}
 }
