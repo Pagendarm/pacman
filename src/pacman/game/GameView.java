@@ -15,8 +15,6 @@ import java.io.IOException;
 import java.util.EnumMap;
 import java.util.Vector;
 
-import pacman.game.internal.DijNode;
-
 import static pacman.game.Constants.*;
 
 /**
@@ -42,13 +40,7 @@ public final class GameView extends JComponent
     private static String imageFileName="";
     public static Vector<DebugPointer> debugPointers=new Vector<DebugPointer>();
     public static Vector<DebugLine> debugLines=new Vector<DebugLine>();
-
-    private DijNode[] graph = null;
     
-    public void setGraph(DijNode[] graph) {
-        this.graph = graph;
-    }
-
     /**
      * Instantiates a new game view.
      *
@@ -186,14 +178,6 @@ public final class GameView extends JComponent
         drawGhosts();
         drawLives();
         drawGameInfo();
-
-        if(graph != null) {
-            for(int i = 0; i < graph.length; i++) {
-                if(game.isJunction(i))
-                    bufferGraphics.drawString("" + Math.round(graph[i].dist), graph[i].x * 2, (graph[i].y * 2) + 16);
-            }
-        }
-        
         
         if(game.gameOver())
         	drawGameOver();

@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Random;
-import java.util.Scanner;
 
 import pacman.controllers.Controller;
 import pacman.controllers.HumanController;
@@ -62,10 +61,9 @@ public class Executor
 		
 		//run multiple games in batch mode - good for testing.
 		int numTrials=10000;
-		exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
-		
-		//exec.runExperiment(new StarterPacMan(),new MyGhosts(),numTrials);
+		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		 
+		
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.
 		int delay=5;
@@ -78,21 +76,10 @@ public class Executor
 		boolean visual=true;
 		
 		// run unit tests during execution
-		boolean bRunUnitTests=false;
-		//exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
-
-		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
-		
-		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
-		
-		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
-
-		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
-		//*/
-
+		boolean bRunUnitTests=true;
 		
 		
-		exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
+		exec.runGameTimed(new StarterPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
 		
 		// mypacman testing
 		//exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
@@ -172,7 +159,7 @@ public class Executor
 		
 		if(visual)
 			gv=new GameView(game).showGame();
-
+		
 		while(!game.gameOver())
 		{
 	        game.advanceGame(pacManController.getMove(game.copy(),-1),ghostController.getMove(game.copy(),-1));
@@ -181,6 +168,7 @@ public class Executor
 	        
 	        if(visual)
 	        	gv.repaint();
+	        
 		}
 	}
 	
@@ -208,13 +196,8 @@ public class Executor
 		new Thread(pacManController).start();
 		new Thread(ghostController).start();
 		
-        Scanner scanner = new Scanner(System.in);
-
 		while(!game.gameOver())
 		{
-            //if(scanner.hasNext())
-            //    scanner.nextLine();
-
 			pacManController.update(game.copy(),System.currentTimeMillis()+DELAY);
 			ghostController.update(game.copy(),System.currentTimeMillis()+DELAY);
 
@@ -228,10 +211,6 @@ public class Executor
 			}
 
 	        game.advanceGame(pacManController.getMove(),ghostController.getMove());	   
-
-            if(((MyPacMan)pacManController).timeGraph != null) {
-                gv.setGraph(((MyPacMan)pacManController).dijGhost.graph);
-            }
 	        
 	        if(visual)
 	        	gv.repaint();

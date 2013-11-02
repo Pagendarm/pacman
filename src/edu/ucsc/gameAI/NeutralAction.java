@@ -11,15 +11,13 @@ public class NeutralAction implements IAction, IBinaryNode {
 		
 	}
 	
+	@Override
 	public IAction makeDecision(Game game) {
 		return this;
 	}
 
+	@Override
 	public MOVE getMove() {
-		return MOVE.NEUTRAL;
-	}
-	
-	public MOVE getMove(Game game) {
 		return MOVE.NEUTRAL;
 	}
 }

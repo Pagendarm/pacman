@@ -33,11 +33,11 @@ import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.tests.*;
 import static pacman.game.Constants.*;
-
+/*
 import edu.ucsc.gameAI.*;
 import edu.ucsc.gameAI.conditions.*;
 import edu.ucsc.gameAI.decisionTrees.binary.BinaryDecision;
-/*import edu.ucsc.gameAI.fsm.*;
+import edu.ucsc.gameAI.fsm.*;
 import edu.ucsc.gameAI.hfsm.*;
 */
 
@@ -53,7 +53,7 @@ public class Evaluator
 	ActionsAndConditionsTests actTest;
 	DecisionTreeTests decTest;
 	FSMTests fsmTest;
-	//HFSMTests hfsmTest;
+	HFSMTests hfsmTest;
 	LinkedList<Float> actResults;
 	LinkedList<Float> decResults;
 	LinkedList<Float> fsmResults;
@@ -86,29 +86,7 @@ public class Evaluator
 			iter = actResults.iterator();
 			while (iter.hasNext())
 				avg+=iter.next();
-	
-		// FSM (up when pacman in the bottom half of screen, down otherwise)
-		
-		Collection<IAction> actions = fsm.update(game);
-		
-		// test result
-		int ip = game.getPacmanCurrentNodeIndex();
-		pacx = game.getNodeXCood(ip);
-		pacy = game.getNodeYCood(ip);
-		if (ix1 <= pacx && ix2 >= pacx &&
-			iy1 <= pacy && iy2 >= pacy &&
-			actions.iterator().hasNext())
-		{
-			if (fsm.getCurrentState() != stateRun)
-				System.out.println("FSM state failed");
-			if (actions.iterator().next().getClass() != GoDownAction.class)
-				System.out.println("FSM action result failed");
-		}
 			
-		// hfsm
-		boolean bCheck = false;
-		//actions = hfsm.update(game).getActions();
-		if (game.getPacmanLastMoveMade() == MOVE.LEFT && !bLeftState)
 			System.out.println(100*avg/actResults.size()+"% of points.");
 		}
 		System.out.print("Decision Trees: ");
@@ -301,10 +279,10 @@ public class Evaluator
     		if(!classesExist) {
     			;//System.err.println("Required classes are not implemented. Not running HFSM tests.");
     		}else{
-    			/*if (hfsmTest == null)
+    			if (hfsmTest == null)
     				hfsmTest = new HFSMTests();
     			
-    			hfsmResults.add(hfsmTest.test(game));*/
+    			hfsmResults.add(hfsmTest.test(game));
     		}
     	}
 		

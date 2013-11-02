@@ -1,7 +1,6 @@
 package edu.ucsc.gameAI;
 
 import pacman.game.Constants.MOVE;
-import pacman.game.Game;
 
 
 /**
@@ -17,6 +16,4 @@ public interface IAction {
 	public void doAction();
 	
 	public MOVE getMove();
-	
-	public MOVE getMove(Game game);
 }
