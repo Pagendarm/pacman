@@ -62,7 +62,7 @@ public class Executor
 		
 		//run multiple games in batch mode - good for testing.
 		int numTrials=1000;
-		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
+		exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		 
 		
 		/*
@@ -80,7 +80,7 @@ public class Executor
 		boolean bRunUnitTests=false;
 		
 		
-		exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
+		//exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);
 		
 		// mypacman testing
 		//exec.runGameTimed(new MyPacMan(),new Legacy2TheReckoning(),visual,bRunUnitTests);

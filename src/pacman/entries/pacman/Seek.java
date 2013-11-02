@@ -39,14 +39,13 @@ public class Seek implements IAction
 
     public void doAction() { };
 
-    public MOVE getMove()
+    public MOVE getMove() { return getMove(this.game); };
+    public MOVE getMove(Game game)
     {
         MOVE move = MOVE.NEUTRAL;
         int pacmanIndex = game.getPacmanCurrentNodeIndex();
 
-        int current = game.getPacmanCurrentNodeIndex();
-
-        isTargetNode isTarget = new isTargetNode(current, target);
+        isTargetNode isTarget = new isTargetNode(pacmanIndex, target);
         if(isTarget.test(game)) {
             //if(true) {
             int index = 0;

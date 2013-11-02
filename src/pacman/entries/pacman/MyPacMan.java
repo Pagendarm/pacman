@@ -30,7 +30,7 @@ public class MyPacMan extends Controller<MOVE>
 
     public Dijkstra dijGhost, dijPacman;
     public DijNode[] timeGraph = null;
-    boolean init = false;
+    boolean needInit = false;
 
     Seek seek;
     Wander wander;
@@ -48,7 +48,7 @@ public class MyPacMan extends Controller<MOVE>
 
 	public MOVE getMove(Game game, long timeDue) 
 	{
-        if(!init || (maze != game.getCurrentMaze())) {
+        if(!needInit || (maze != game.getCurrentMaze())) {
             init(game);
             setup(game);
         }
@@ -83,7 +83,7 @@ public class MyPacMan extends Controller<MOVE>
             dijPacman.resetGraph();
             dijPacman.computeGraph(pacmanIndex, false, game);
 
-            timeGraph = concatGraphs(dijGhost.graph, dijPacman.graph);
+            timeGraph = concatGraphs(dijPacman.graph, dijGhost.graph);
 
             //setup(game);
 
@@ -93,10 +93,17 @@ public class MyPacMan extends Controller<MOVE>
             }
         }
 
+        Collection<IAction> pacmanACT = fsm.update(game);
+
+        /*
+        if(pacmanACT != null && pacmanACT.iterator().hasNext())
+            move = pacmanACT.iterator().next().getMove(game);
+            */
+
         if(act.getClass() == Wander.class) {
-            move = wander.getMove();
+            move = wander.getMove(game);
         } else {
-            move = seek.getMove();
+            move = seek.getMove(game);
         }
         System.out.println("" + move);
         /*
@@ -113,24 +120,41 @@ public class MyPacMan extends Controller<MOVE>
 
     private void init(Game game)
     {
+        int pacmanIndex = game.getPacmanCurrentNodeIndex();
         maze = game.getCurrentMaze();
-
+        
         dijGhost = new Dijkstra();
         dijPacman = new Dijkstra();
 
         dijGhost.createGraph(maze.graph);
         dijPacman.createGraph(maze.graph);
+
+        dijGhost.resetGraph();
+
+        int index = 0;
+        for(GHOST g : GHOST.values()) {
+            gIndex[index] = game.getGhostCurrentNodeIndex(g);
+            dijGhost.softResetGraph();
+            dijGhost.computeGraph(gIndex[index], false, game);
+            index++;
+        }
+
+        dijPacman.resetGraph();
+        dijPacman.computeGraph(pacmanIndex, false, game);
+
+        timeGraph = concatGraphs(dijGhost.graph, dijPacman.graph);
     }
 
     private void setup(Game game)
     {
         maze = game.getCurrentMaze();
 
-        stateSeek = new State();
         seek = new Seek(game, maze, timeGraph);
+        wander = new Wander(game, maze, timeGraph);
+
+        stateSeek = new State();
         stateSeek.setAction(seek);
         stateWander = new State();
-        wander = new Wander(game, maze, timeGraph);
         stateWander.setAction(wander);
 
         transSeek = new Transition();
@@ -153,7 +177,7 @@ public class MyPacMan extends Controller<MOVE>
         fsm = new StateMachine();
         fsm.setCurrentState(stateSeek);
 
-        init = true;
+        needInit = true;
     }
 
     private DijNode[] concatGraphs(DijNode[] g1, DijNode[] g2)

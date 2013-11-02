@@ -39,14 +39,15 @@ public class Wander implements IAction
 
     public void doAction() { };
 
-    public MOVE getMove()
+    public MOVE getMove() { return getMove(this.game); };
+    public MOVE getMove(Game game)
     {
         MOVE move = MOVE.NEUTRAL;
         int pacmanIndex = game.getPacmanCurrentNodeIndex();
 
-        int current = game.getPacmanCurrentNodeIndex();
-        isTargetNode isTarget = new isTargetNode(current, -1);
+        isTargetNode isTarget = new isTargetNode(pacmanIndex, -1);
         if(isTarget.test(game)) {
+            System.out.println("1");
             //if(true) {
             int index = 0;
             for(GHOST g : GHOST.values())
@@ -72,6 +73,8 @@ public class Wander implements IAction
                         valid = false;
                 }
 
+                System.out.println("" + valid);
+
                 while(valid) {
                     isTargetNode itn = new isTargetNode(curr, -1);
                     if(!itn.test(game)) break;
@@ -96,12 +99,18 @@ public class Wander implements IAction
                     if(game.getPowerPillIndex(curr) != -1)
                         powerPill = true;
                 }
+                System.out.println("" + valid);
 
                 isCornered iscornered = new isCornered(graph, graph[curr], last, 5);
                 boolean cornered = iscornered.test(game);
                 if(graph[curr].dist <= 1) valid = false;
 
+                System.out.println("" + valid);
+
+                System.out.println("2");
+
                 if(valid) {
+                    System.out.println("3");
                     int n = graph[pacmanIndex].neighbors[i];
                     MOVE m = game.getNextMoveTowardsTarget(pacmanIndex, n, DM.PATH);
                     if(m.opposite() == lastMove) {
@@ -111,8 +120,11 @@ public class Wander implements IAction
                         }
                     }
                     if(!notCornered || (!cornered && notCornered)) {
+                        System.out.println("4");
                         if((!foundPath || !powerPill)) {
+                            System.out.println("5");
                             if((graph[curr].dist > easiness) || (score > pathScore)) {
+                                System.out.println("6");
                                 foundPath = true;
                                 notCornered = !cornered;
                                 pathScore = score;
