@@ -52,10 +52,10 @@ public class Executor
 		
 		//run multiple games in batch mode - good for testing.
 		int numTrials=10000;
-		//exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
-		exec.runExperiment(new StarterPacMan(),new MyGhosts(),numTrials);
-		 
+		exec.runExperiment(new StarterPacMan(),new Legacy2TheReckoning(),numTrials);
 		
+		//exec.runExperiment(new StarterPacMan(),new MyGhosts(),numTrials);
+		 
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.
 		int delay=5;
@@ -68,11 +68,13 @@ public class Executor
 		boolean visual=true;
 		
 		// run unit tests during execution
-		boolean bRunUnitTests=true;
+		boolean bRunUnitTests=false;
 		//exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 
 		//exec.runGameTimed(new StarterPacMan(),new EvaluationAgent(),visual);
+		
 		//exec.runGameTimed(new StarterPacMan(),new MyGhosts(),visual,bRunUnitTests);
+		
 		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new MyGhosts(),visual,bRunUnitTests);
 
 		//exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
